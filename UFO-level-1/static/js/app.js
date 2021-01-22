@@ -61,3 +61,29 @@ function filterData() {
       });
 
 }
+
+var search = d3.select('#search')
+
+search.on('keyup', filterOnColumns)
+
+function filterOnColumns() {
+    
+    var searchInput = search.property('value')
+    console.log(searchInput)
+
+    var columnFiltered = tableData.filter(alien => alien.city === searchInput)
+
+        //clear out existing table
+        tbody.html('');
+
+        //rebuild table with filtered data
+        columnFiltered.forEach((aliens) => {
+            var row = tbody.append("tr");
+            Object.entries(aliens).forEach(([key, value]) => {
+              var cell = row.append("td");
+              cell.text(value);
+            });
+          });
+
+
+}
