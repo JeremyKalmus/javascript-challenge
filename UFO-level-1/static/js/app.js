@@ -1,9 +1,9 @@
 // from data.js
 var tableData = data;
-
+// select table body with d3
 var tbody = d3.select("tbody");
 
-// select table body with d3
+//setup initialize function to build table on site open
 function init(){
   
 
@@ -65,25 +65,30 @@ function filterData() {
       });
 
 }
+
+//create search variables
 var search_btn = d3.select('#search-btn');
 var search_form = d3.select("#search");
 
-search_btn.on('click', filterOnColumns);
-search_form.on('submit', filterOnColumns);
+//create search even listeners
+search_btn.on('click', search);
+search_form.on('submit', search);
 
-
-function filterOnColumns() {
-    
+//search function
+function search() {
+   
+  //d3 to select dropdown menu
   var dropdownMenu = d3.select("#selSearch");
-  // Assign the value of the dropdown menu option to a variable
+  //get value of dropdown menu
   var searchColumn = dropdownMenu.property("value");
+  //log it to check value
   console.log(searchColumn)
 
-
+  //get value of search input
   var searchInput = search_form.property('value')
     console.log(searchInput)
 
-
+  // if statements to detemine which column to search on
     if (searchColumn === 'city') {
     var columnFiltered = tableData.filter(alien => alien.city === searchInput)
     }
@@ -101,7 +106,7 @@ function filterOnColumns() {
         //clear out existing table
         tbody.html('');
 
-        //rebuild table with filtered data
+        //rebuild table with searched data
         columnFiltered.forEach((aliens) => {
             var row = tbody.append("tr");
             Object.entries(aliens).forEach(([key, value]) => {
@@ -111,7 +116,10 @@ function filterOnColumns() {
           });
 }
 
+
+//reset button to clear search filter
 var reset_btn = d3.select('#reset-btn');
 reset_btn.on('click', init);
 
+//initialize function to built table at site launch
 init()
